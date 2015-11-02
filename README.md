@@ -6,6 +6,30 @@ This example uses requirejs/amd for browser JS dependency management.
 
 It also uses Grunt and some very specific tasks as described below.
 
+This app was generated with the following parameters to `generator-kraken`:
+
+```shell
+LM-SJN-00872356:krakex medelman$ yo kraken try18n
+
+     ,'""`. 
+hh  / _  _ \
+    |(@)(@)|   Release the Kraken!
+    )  __  (
+   /,'))((`.\ 
+  (( ((  )) ))
+   `\ `)(' /'
+
+Tell me a bit about your application:
+
+? Description: i18n sample for dust, makara2, requirejs
+? Author: Matt Edelman
+? Template library? Dust (via Makara 2)
+? Include i18n support? Yes
+? Front end package manager ? No
+? CSS preprocessor library? LESS
+? JavaScript library? RequireJS
+```
+
 ## Load appropriate libraries into the browser
 
 In order to perform the i18n-enabled compilation in the browser, we need the browser versions of the appropriate dust 
@@ -230,3 +254,43 @@ module.exports = function dustjs(grunt) {
 ```
 
 Now, when we run `grunt build` we see that our dust templates have been compiled (but not localized) to `.build/js/templates`.
+
+## Adding a client rendered template
+
+Create public/templates/example.dust:
+
+```html
+<h3>{@message key="greeting"/}</h3>
+```
+
+Create locales/US/en/example.properties:
+
+```
+greeting=example.dust rendered on the {where}!
+```
+
+Add a "where" property to the server side data model for the default route (models/index.js):
+
+```js
+'use strict';
+
+module.exports = function IndexModel() {
+    return {
+        name: 'index',
+        where: 'server'
+    };
+};
+```
+
+Add a reference to "example.dust" in "index.dust":
+
+```html
+{>"layouts/master" /}
+
+{<body}
+    <h1>{@pre type="content" key="greeting"/}</h1>
+    {>"example" /}
+{/body}
+```
+
+You should be able to refresh the default route and see the new partial. Note it is rendering on the server.

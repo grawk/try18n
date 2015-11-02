@@ -2,6 +2,7 @@
 
 module.exports = function IndexModel() {
     return {
-        name: 'index'
+        name: 'index',
+        where: 'server'
     };
 };
