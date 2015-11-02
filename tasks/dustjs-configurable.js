@@ -12,9 +12,9 @@ module.exports = function dustjs(grunt) {
             files: [
                 {
                     expand: true,
-                    cwd: 'public',
+                    cwd: 'public/templates',
                     src: '**/*.dust',
-                    dest: '.build/js',
+                    dest: '.build/js/templates',
                     ext: '.dust.js'
                 }
             ],
