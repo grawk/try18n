@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{locale.language}-{locale.country}" data-langpack="/{makara.languagePackPath|s}">
     <head>
         <meta charset="utf-8" />
         <title>{+title /}</title>
-    
+
         <link rel="stylesheet" href="/css/app.css">
-    
+
     </head>
     <body>
 
@@ -13,8 +13,8 @@
             {+body /}
         </div>
 
-    
-        <script data-main="/js/app" src="/components/requirejs/require.js"></script>
-    
+
+        <script data-main="/js/app" src="/js/components/requirejs/require.js"></script>
+
     </body>
 </html>

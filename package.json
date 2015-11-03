@@ -21,9 +21,12 @@
     "express": "^4.12.2",
     "kraken-js": "^1.0.3",
     "makara": "^2.0.3",
+    "makara-amdify": "^1.1.6",
     "requirejs": "^2.1.20"
   },
   "devDependencies": {
+    "construx-dustjs-makara-amd-precompile": "0.0.1",
+    "construx-makara-amdify": "0.0.1",
     "dust-message-helper": "^3.0.2",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
@@ -46,6 +49,9 @@
     "overrides": {
       "dustjs-linkedin": {
         "main": "dist/dust-full"
+      },
+      "requirejs": {
+        "main": "require"
       }
     }
   }

@@ -1,1 +1,3 @@
+{@useContent bundle="example.properties"}
 <h3>{@message key="greeting"/}</h3>
+{/useContent}

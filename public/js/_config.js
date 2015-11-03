@@ -24,7 +24,14 @@ requirejs.config({
             'version': '2.7.2',
             'location': 'components/dustjs-linkedin',
             'main': 'dist/dust-full'
+        },
+        {
+            'name': 'requirejs',
+            'version': '2.1.20',
+            'location': 'components/requirejs',
+            'main': 'require'
         }
-    ]
+    ],
+    paths: { '_languagepack': document.documentElement.getAttribute('data-langpack') }
 });
 define.amd.dust = true;
