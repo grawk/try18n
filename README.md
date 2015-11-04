@@ -130,6 +130,13 @@ module.exports = function dustjs(grunt) {
 };
 ```
 
+You'll want to be sure you don't check in any generated files to github. So add the following to your .gitignore file:
+
+```
+public/components
+public/js/_config.js
+```
+
 To take advantage of the `put-packages-in-requirejs-config` task, we need to create a base `public/js/config.js` file:
 
 ```js
@@ -286,7 +293,7 @@ module.exports = function IndexModel() {
 };
 ```
 
-Add a reference to "example.dust" in "index.dust":
+Add a reference to "example.dust" in "index.dust", and also an empty div which we will use later for browser rendering:
 
 ```html
 {>"layouts/master" /}
@@ -294,6 +301,7 @@ Add a reference to "example.dust" in "index.dust":
 {<body}
     <h1>{@pre type="content" key="greeting"/}</h1>
     {>"example" /}
+    <div id="exampletarget"></div>
 {/body}
 ```
 
