@@ -418,6 +418,10 @@ require(['_config'], function (config) {
 Now build/restart your app and try the default route. You should now see both the server rendered and client rendered 
 version of "example.dust".
 
+## Loading different languages
+
+You can specify `country=FR&language=fr` on the query string for the default route to see French content.
+
 ## Setting up for development
 
 We don't want to rebuild our app every time we want to see a change to the client-rendered template or properties file. 
