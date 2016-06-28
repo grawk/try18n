@@ -27,6 +27,7 @@
   "devDependencies": {
     "construx-dustjs-makara-amd-precompile": "0.0.1",
     "construx-makara-amdify": "0.0.1",
+    "construx-makara-browserify": "0.0.1",
     "dust-message-helper": "^3.0.2",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
