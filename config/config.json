@@ -46,11 +46,11 @@
             "enabled": true,
             "module": "path:./lib/locale"
         },
-        "makaraAMDify": {
+        "makaraBrowserify": {
             "priority": 119,
             "enabled": true,
             "module": {
-                "name": "makara-amdify",
+                "name": "makara-browserify",
                 "method": "middleware"
             }
         },

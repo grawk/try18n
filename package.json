@@ -21,7 +21,8 @@
     "express": "^4.12.2",
     "jquery": "^3.0.0",
     "kraken-js": "^1.0.3",
-    "makara": "^2.0.3"
+    "makara": "^2.0.3",
+    "makara-browserify": "^1.2.3"
   },
   "devDependencies": {
     "browserify-shim": "^3.8.12",

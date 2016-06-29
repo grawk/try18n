@@ -15,7 +15,7 @@
 
 
         <script src="js/components/dustjs-linkedin/dist/dust-full.js" ></script>
-        <script src="{context.links.resourceBaseUrl|s}/{makara.languagePackPath|s}.js" ></script>
+        <script src="{context.links.resourceBaseUrl|s}/{makara.languagePackPath|s}" ></script>
         <script>
             var langPack = require('_languagepack');
         </script>

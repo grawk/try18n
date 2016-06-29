@@ -9,10 +9,6 @@ module.exports = function browserify(grunt) {
 		build: {
 			src: './public/js/main.js',
 			dest: '.build/js/bundle.js'
-			//,
-			//options: {
-			//	transform: ['reactify', 'require-globify']
-			//}
 		}
 	};
 };

@@ -2,43 +2,18 @@
 
 Compiling dustjs in the browser, with i18n, using PayPal's Dust/Makara helpers.
 
-This example uses requirejs/amd for browser JS dependency management.
+This example uses browserify for browser JS dependency management.
 
 It also uses Grunt and some very specific tasks as described below.
 
-This app was generated with the following parameters to `generator-kraken`:
-
-```shell
-LM-SJN-00872356:krakex medelman$ yo kraken try18n
-
-     ,'""`. 
-hh  / _  _ \
-    |(@)(@)|   Release the Kraken!
-    )  __  (
-   /,'))((`.\ 
-  (( ((  )) ))
-   `\ `)(' /'
-
-Tell me a bit about your application:
-
-? Description: i18n sample for dust, makara2, requirejs
-? Author: Matt Edelman
-? Template library? Dust (via Makara 2)
-? Include i18n support? Yes
-? Front end package manager ? No
-? CSS preprocessor library? LESS
-? JavaScript library? RequireJS
-```
+The instructions below are roughly a diff from what you'd get when you run `generator-kraken` and generate a basic app with makara2 content.  
 
 ## Load appropriate libraries into the browser
 
-In order to perform the i18n-enabled compilation in the browser, we need the browser versions of the appropriate dust 
-helpers:
-* dust-makara-helpers
-* dust-message-helpers
-* dust-usecontent-helper
+In order to perform the i18n-enabled compilation in the browser, we need the browser version of `dust-makara-helpers`.
 
-Note that each of the above modules have a `browserPackage` section in their package.json file, something like this:
+
+`dust-makara-helpers` has a `browserPackage` section in its package.json file, something like this:
 
 ```js
 "browserPackage": {
@@ -46,7 +21,7 @@ Note that each of the above modules have a `browserPackage` section in their pac
   },
 ```
 
-That is an indicator to `copy-browser-modules` (see below under Grunt tasks) to copy files out of those modules for 
+That is an indicator to `copy-browser-modules` (see below under Grunt tasks) to copy files out of this module for 
 use in the browser.
 
 `dustjs-linkedin`, which is also required in the browser, does not have this `browserPackage` property in its 
@@ -63,9 +38,9 @@ package.json. But never fear, we can add an override in our main package.json as
 ```
 ### Installing new stuff
 
-`npm i --save-dev grunt-copy-browser-modules grunt-put-packages-in-requirejs-config`
+`npm i --save-dev grunt-copy-browser-modules grunt-browserify grunt-makara-browserify`
 
-`npm i --save dustjs-linkedin@~v2.7.0 dust-message-helper requirejs`
+`npm i --save dustjs-linkedin@~v2.7.0 dust-message-helper browserify jquery`
 
 (make sure you have installed a 2.7 version of dust as breaking changes are possible on minor versions)
 
@@ -76,9 +51,7 @@ The following grunt tasks (and their core functionality, which can be wrapped in
 
 * https://github.com/aredridel/grunt-copy-browser-modules
   * Uses: https://github.com/aredridel/copy-browser-modules
-* https://github.com/aredridel/grunt-put-packages-in-requirejs-config
-  * Uses: https://github.com/aredridel/put-packages-in-requirejs-config
-  
+
 We will add a new grunt task to the `postinstall` script in our package.json:
 
 ```js
@@ -88,7 +61,7 @@ We will add a new grunt task to the `postinstall` script in our package.json:
 Then, in our Gruntfile, we define the `postinstall` task:
 
 ```js
-grunt.registerTask('postinstall', ['copy-browser-modules', 'put-packages-in-requirejs-config']);
+grunt.registerTask('postinstall', ['copy-browser-modules']);
 ```
 
 Task configurations for these tasks are as follows (note: I used `grunt-config-dir`, so each task is configured by 
@@ -111,54 +84,30 @@ module.exports = function dustjs(grunt) {
 };
 ```
 
-tasks/put-packages-in-requirejs-config
+tasks/browserify
+
 ```js
 'use strict';
 
-module.exports = function dustjs(grunt) {
-    grunt.loadNpmTasks('grunt-put-packages-in-requirejs-config');
+module.exports = function browserify(grunt) {
+	// Load task
+	grunt.loadNpmTasks('grunt-browserify');
 
-    return {
-        packages: {
-            options: {
-                src: 'public/js/config.js',
-                dest: 'public/js/_config.js',
-                packages: 'public/js/components'
-            }
-        }
-    };
+	// Options
+	return {
+		build: {
+			src: './public/js/main.js',
+			dest: '.build/js/bundle.js'
+		}
+	};
 };
 ```
 
-You'll want to be sure you don't check in any generated files to github. So add the following to your .gitignore file:
+
+You'll want to be sure you don't check in any copied files to github. So add the following to your .gitignore file:
 
 ```
 public/components
-public/js/_config.js
-```
-
-To take advantage of the `put-packages-in-requirejs-config` task, we need to create a base `public/js/config.js` file:
-
-```js
-'use strict';
-
-requirejs.config({
-    packages: []
-});
-define.amd.dust = true;
-```
-
-`put-packages-in-requirejs-config` will add the appropriate values in the `packages` section, and write out as 
-`_config.js`, which we will reference in app.js:
-
-```js
-'use strict';
-
-
-require(['_config'], function (config) {
-    //application code here
-});
-
 ```
 
 ### Run new postinstall task
@@ -171,98 +120,10 @@ After all of our changes, we can run `npm install` and note the postinstall task
 
 Running "copy-browser-modules:build" (copy-browser-modules) task
 
-Running "put-packages-in-requirejs-config:packages" (put-packages-in-requirejs-config) task
-
 Done, without errors.
 ```
 
 Note the new directory `public/js/components`.
-
-Also note the new file `public/js/_config.js`, with the populated `packages` array:
-
-```js
-packages: [
-        {
-            'name': 'dust-makara-helpers',
-            'version': '4.1.2',
-            'location': 'components/dust-makara-helpers',
-            'main': 'browser.js'
-        },
-        {
-            'name': 'dust-message-helper',
-            'version': '4.2.1',
-            'location': 'components/dust-message-helper',
-            'main': 'index.js'
-        },
-        {
-            'name': 'dust-usecontent-helper',
-            'version': '4.0.1',
-            'location': 'components/dust-usecontent-helper',
-            'main': 'index.js'
-        },
-        {
-            'name': 'dustjs-linkedin',
-            'version': '2.7.2',
-            'location': 'components/dustjs-linkedin',
-            'main': 'dist/dust-full'
-        }
-    ]
-```
-
-## Changes for browser dustjs rendering
-
-We need to alter how we manage our dust templates just a bit. Because dust will try and resolve 
-partials like "foo/bar/header" as "foo/bar/header.dust". When mixed with requirejs, this means we 
-need to name our templates with as *.dust.js. To that end, we will use the grunt task called 
-`grunt-dustjs-configurable`.
-
-```bash
-npm install --save-dev grunt-dustjs-configurable
-```
-
-Replace the `dustjs` sub-task in the grunt `build` task:
-
-```js
-grunt.registerTask('build', ['jshint', 'dustjs-configurable', 'makara-amdify', 'less', 'requirejs', 'copyto']);
-```
-
-Add the `tasks/dustjs-configurable.js` file:
-
-```js
-'use strict';
-
-var path = require('path');
-
-module.exports = function dustjs(grunt) {
-    // Load task
-    grunt.loadNpmTasks('grunt-dustjs-configurable');
-
-    // Options
-    return {
-        amd: {
-            files: [
-                {
-                    expand: true,
-                    cwd: 'public/templates',
-                    src: '**/*.dust',
-                    dest: '.build/js/templates',
-                    ext: '.dust.js'
-                }
-            ],
-            options: {
-                amd: true,
-                fullname: function (filepath) {
-                    return path.relative('public', filepath);
-                }
-            }
-        }
-    };
-};
-```
-
-Now, when we run `grunt build` we see that our dust templates have been compiled (but not localized) to `.build/js/templates`.
-
-## Adding a client rendered template
 
 ### Make and render new template server side
 
@@ -316,7 +177,7 @@ with the following:
 <html lang="{locale.language}-{locale.country}" data-langpack="{context.links.resourceBaseUrl|s}/{makara.languagePackPath|s}">
 ```
 
-To support the above changes, we need to write/register a locale middleware and install/register `makara-amdify` middleware.
+To support the above changes, we need to write/register a locale middleware and install/register `makara-browserify` middleware.
 
 First, locale middleware. Create lib/locale.js:
 
@@ -334,10 +195,10 @@ module.exports = function () {
 };
 ```
 
-Second, let's install `makara-amdify` and register its middleware:
+Second, let's install `makara-browserify` and register its middleware:
 
 ```bash
-npm install --save makara-amdify
+npm install --save makara-browserify
 ```
 
 In config.json let's register both of these middlewares:
@@ -348,69 +209,64 @@ In config.json let's register both of these middlewares:
     "enabled": true,
     "module": "path:./lib/locale"
 },
-"makaraAMDify": {
+"makaraBrowserify": {
     "priority": 119,
     "enabled": true,
     "module": {
-        "name": "makara-amdify",
+        "name": "makara-browserify",
         "method": "middleware"
     }
 },
 ```
 
-As you may have astutely guessed, `makara-amdify` requires that a locale be set so it can calculate the appropriate 
+As you may have astutely guessed, `makara-browserify` requires that a locale be set so it can calculate the appropriate 
 languagepack path.
 
-Now add the following to "public/js/config.js" (remember not to edit _config.js, as that file is generated by our grunt task above):
+Now add the following to "public/templates/layouts/master.dust":
 
-```js
-    paths: { '_languagepack': document.documentElement.getAttribute('data-langpack') }
+```html
+    <script src="{context.links.resourceBaseUrl|s}/{makara.languagePackPath|s}" ></script>
 ```
 
-Now, we will replace the current app.js with the following:
+Now, we will replace the current app.js with the following as main.js:
 
 ```js
-'use strict';
+var $ = require('jquery');
 
+dust.onLoad = function(templateName, callback) {
+	console.log("loading template", templateName);
+	$.get('/templates/' + templateName + '.js', function(data) {
+		var res=dust.loadSource(data);
+		callback(null,res);
+	});
+};
 
-require(['_config'], function (config) {
-    require(['dustjs-linkedin', 'dust-makara-helpers/browser.amd', 'require' /*, Your modules */ ], function(dust, dmh, require) {
+var loader = function(ctx, bundle, callback){
+	console.log('loader ctx ', JSON.stringify(ctx), ' bundle', bundle);
+	console.log(JSON.stringify(langPack,0,4));
+	callback(null,langPack[getLang()][bundle]);
+};
 
-        // We make our own dust-to-AMD bridge because the built-in one in
-        // dust 2.7.2 is funky and communicates via the cache.
-        dust.onLoad = function(name, cb) {
-            require([name], function (tmpl) {
-                cb(null, tmpl);
-            });
-        };
+require('dust-makara-helpers').registerWith(dust, {
+	enableMetadata: true,
+	autoloadTemplateContent: false,
+	loader:loader
+});
 
-        dmh.registerWith(dust, {
-            loader: function (context, bundle, cb) {
-                require(['_languagepack'], function (lp) {
-                    cb(null, lp[getLang()][bundle]);
-                });
-            }
-        });
+function getLang() {
+	console.log(document.documentElement.getAttribute('lang'))
+	return document.documentElement.getAttribute('lang');
+}
 
-        dust.render('templates/example.dust', {where: 'browser'}, function (err, data) {
-            if (err) {
-                console.warn(err);
-            } else {
-                document.querySelector('#exampletarget').innerHTML = data;
-                window.readyToGo = true;
-            }
-        });
-
-        // Code here
-        // set a flag to indicate your application is fully ready for interaction
-        window.readyToGo = false;
-        //simulate some pre-loading of assets, building of views, etc.
-
-    });
-
-    function getLang() {
-        return document.documentElement.getAttribute('lang');
-    }
+$(function () {
+	dust.render('example', {where: 'browser'}, function (err, data) {
+		if (err) {
+			console.warn(err);
+		} else {
+			$('#exampletarget')[0].innerHTML = data;
+			window.readyToGo = true;
+		}
+	});
 });
 
 ```
@@ -428,29 +284,37 @@ We don't want to rebuild our app every time we want to see a change to the clien
 So let's install a couple `construx` modules and configure them for development mode.
 
 ```
-npm install --save-dev construx-makara-amdify construx-dustjs-makara-amd-precompile
+npm install --save-dev construx-browserify construx-makara-browserify
 ```
 
-Now let's configure `construx-makara-amdify` and re-configure `construx-dustjs` in development.json:
+Now let's configure `construx-makara-browserify` and re-configure `construx-dustjs` in development.json:
 
 ```js
-"makara-amdify": {
-    "module": "construx-makara-amdify",
+"browserify-languagepack": {
+    "module": "construx-makara-browserify",
     "files": "**/_languagepack.js",
     "i18n": "config:i18n",
     "ext": "js"
 },
+"browserify": {
+    "module": "construx-browserify",
+    "files": "/js/*.js",
+    "bundles": {
+        "/js/bundle.js": {
+            "src": "path:./public/js/main.js"
+        }
+    }
+},
 "dust": {
     "module": "construx-dustjs",
-    "files": "/js/templates/**/*.js",
+    "files": "/templates/**/*.js",
     "base": "templates",
     "ext": "dust",
     "config": {
         "prepend": "",
         "append": "",
-        "amd": true
-    },
-    "precompile": "require:construx-dustjs-makara-amd-precompile"
+        "amd": false
+    }
 },
 ```
 
