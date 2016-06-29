@@ -36,7 +36,7 @@
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-less": "^1.0.1",
     "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-copy-browser-modules": "^5.0.1",
+    "grunt-copy-browser-modules": "git://github.com/grawk/grunt-copy-browser-modules.git#master",
     "grunt-copy-to": "0.0.10",
     "grunt-dustjs": "^1.2.1",
     "grunt-makara-browserify": "^1.0.1",

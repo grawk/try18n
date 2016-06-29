@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{locale.language}-{locale.country}" data-langpack="/{makara.languagePackPath|s}">
     <head>
         <meta charset="utf-8" />
         <title>{+title /}</title>
