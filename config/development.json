@@ -33,31 +33,36 @@
                     "path:./.build",
                     {
 
-                        "makara-amdify": {
-                            "module": "construx-makara-amdify",
+                        "browserify-languagepack": {
+                            "module": "construx-makara-browserify",
                             "files": "**/_languagepack.js",
                             "i18n": "config:i18n",
                             "ext": "js"
                         },
+                        "browserify": {
+                            "module": "construx-browserify",
+                            "files": "/js/*.js",
+                            "bundles": {
+                                "/js/bundle.js": {
+                                    "src": "path:./public/js/main.js"
+                                }
+                            }
+                        },
                         "dust": {
                             "module": "construx-dustjs",
-                            "files": "/js/templates/**/*.js",
+                            "files": "/templates/**/*.js",
                             "base": "templates",
                             "ext": "dust",
                             "config": {
                                 "prepend": "",
                                 "append": "",
-                                "amd": true
-                            },
-                            "precompile": "require:construx-dustjs-makara-amd-precompile"
+                                "amd": false
+                            }
                         },
-
-
                         "css": {
                             "module": "construx-less",
                             "files": "/css/**/*.css"
                         },
-
                         "copier": {
                             "module": "construx-copier",
                             "files": "**/*"

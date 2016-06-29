@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{locale.language}-{locale.country}" data-langpack="/{makara.languagePackPath|s}">
+<html>
     <head>
         <meta charset="utf-8" />
         <title>{+title /}</title>
@@ -14,7 +14,12 @@
         </div>
 
 
-        <script data-main="/js/app" src="/js/components/requirejs/require.js"></script>
+        <script src="js/components/dustjs-linkedin/dist/dust-full.js" ></script>
+        <script src="{context.links.resourceBaseUrl|s}/{makara.languagePackPath|s}.js" ></script>
+        <script>
+            var langPack = require('_languagepack');
+        </script>
+        <script type="text/javascript" src="js/bundle.js" ></script>
 
     </body>
 </html>
