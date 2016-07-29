@@ -1,3 +1,9 @@
 {@useContent bundle="example.properties"}
 <h3>{@message key="greeting"/}</h3>
+{@provide}
+{>"inc/parchill" foo=bar/}
+{:foo}
+    {@message key="map" mode="paired"/}
+{/provide}
+{@message key="map" mode="paired"/}
 {/useContent}

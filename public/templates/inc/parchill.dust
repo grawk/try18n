@@ -1,0 +1,5 @@
+<ul>
+    {#foo}
+        <li>{$id}:{$elt}</li>
+    {/foo}
+</ul>

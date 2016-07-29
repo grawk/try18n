@@ -2,12 +2,12 @@
 
 
 require(['_config'], function (config) {
-    require(['dustjs-linkedin', 'dust-makara-helpers/browser.amd', 'require' /*, Your modules */ ], function(dust, dmh, require) {
+    require(['dustjs-linkedin', 'dust-makara-helpers/browser.amd', 'require', 'pulvus-provide'/*, Your modules */ ], function(dust, dmh, require) {
 
         // We make our own dust-to-AMD bridge because the built-in one in
         // dust 2.7.2 is funky and communicates via the cache.
         dust.onLoad = function(name, cb) {
-            require([name], function (tmpl) {
+            require(['templates/' + name + '.dust'], function (tmpl) {
                 cb(null, tmpl);
             });
         };
@@ -21,7 +21,7 @@ require(['_config'], function (config) {
             }
         });
 
-        dust.render('templates/example.dust', {where: 'browser'}, function (err, data) {
+        dust.render('example', {where: 'browser'}, function (err, data) {
             if (err) {
                 console.warn(err);
             } else {

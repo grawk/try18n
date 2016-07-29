@@ -17,7 +17,8 @@
     },
     "dust": {
         "helpers": [
-            "dust-makara-helpers"
+            "dust-makara-helpers",
+            "pulvus-provide"
         ]
     },
     "i18n": {
