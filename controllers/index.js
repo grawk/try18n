@@ -2,8 +2,22 @@
 
 var IndexModel = require('../models/index');
 
-
-
+var lp = {
+    "fr-FR": {
+        "welcome.properties": {
+            "welcome_title": "FR: Welcome to {app}",
+            "welcome_phrase1": "FR: We are glad to have you here!",
+            "welcome_phrase2": "FR: Please, access the link below and create your authentication."
+        }
+    },
+    "en-US": {
+        "welcome.properties": {
+            "welcome_title": "US: Welcome to {app}",
+            "welcome_phrase1": "US: We are glad to have you here!",
+            "welcome_phrase2": "US: Please, access the link below and create your authentication."
+        }
+    }
+};
 
 var fs = require('fs');
 var path = require('path');
@@ -11,42 +25,36 @@ var path = require('path');
 module.exports = function (router) {
 
     var model = new IndexModel();
-    var dustjs = require('dustjs-linkedin'),
-      freshy = require('freshy');
+    var freshy = require('freshy');
 
     var dust = freshy.freshy('dustjs-linkedin');
-    var dustMakaraHelpers = require('dust-makara-helpers').registerWith(dust, {
-        enableMetadata: true,
+    require('dust-makara-helpers').registerWith(dust, {
+        enableMetadata: false,
         autoloadTemplateContent: false,
         loader: function (context, bundle, cb) {
-            require(['_languagepack'], function (lp) {
-                cb(null, lp[getLang()][bundle]);
-            });
+            cb(null, lp[context.get('locale')][bundle]);
         }
     });
     router.get('/', function (req, res) {
         //do some dust rendering here...
-        var welcomePath = path.resolve(__dirname, '../public/templates/welcome.dust');
-        console.log('welcomePath', welcomePath);
         var src = fs.readFileSync(path.resolve(__dirname, '../public/templates/welcome.dust')).toString();
-        console.log('src', src);
-        //dust.config.amd = false;
-        //dust.config.cjs = true;
-        var compiledTemplate = dust.compile(src, 'welcome');
-        dust.loadSource(compiledTemplate);
-        dust.render('welcome', dust.context({
+        dust.loadSource(dust.compile(src, 'welcome'));
+        dust.render('welcome', {
+            app: 'welcomeApp',
             templateName: 'welcome',
-            intl: { locales: 'en-US' },
+            locale: 'fr-FR',
             user: 'foo',
             admin: 'James',
+            email: 'james@localhost',
             host: 'http://localhost',
             port: '8000',
             cipher: 'abc123'
-        }), function(err, out) {
+        }, function(err, out) {
             console.log('>>>>>> err: ' + err);
             console.log('>>>>>> out: ' + out);
+            res.render('index', model);
+
         });
-        res.render('index', model);
     });
 
 };

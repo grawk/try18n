@@ -1,9 +1,9 @@
 {@useContent bundle="welcome.properties"}
-<h3>{welcome.title}</h3>
-<p>{user.name},<br/>
-<p>{welcome.phrase1}</p><br/>
-<p>{welcome.phrase2}<br/>
+<h3>{@message type="content" key="welcome_title"/}</h3>
+<p>{user},<br/>
+<p>{@message type="content" key="welcome_phrase1"/}</p><br/>
+<p>{@message type="content" key="welcome_phrase2"/}<br/>
     <a href="{host}:{port}/user/createAuth/{cipher}">Click here!</a></p><br/>
-<p>{admin.name}<br/>
-    <a href="mailto:{admin.email}"> {admin.email}</a></p>
+<p>{admin}<br/>
+    <a href="mailto:{email}"> {email}</a></p>
 {/useContent}
