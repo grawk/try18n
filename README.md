@@ -461,6 +461,7 @@ NOW, you can delete your .build directory, restart your app, and hit the default
 This branch was committed specifically to work out the issues with using non-standard locales. E.g. some applications may "make up" locales such as "zh-C2", where the country component isn't bcp47-compliant.
 
 There are some PRs meant to resolve this:
+
 https://github.com/krakenjs/dust-makara-helpers/pull/15 (merged/published as 4.2.0)
 - allow a custom `computeLocale` method to bypass bcp47 parsing
 
