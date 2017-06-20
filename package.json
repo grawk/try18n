@@ -21,7 +21,7 @@
     "express": "^4.12.2",
     "kraken-js": "^1.0.3",
     "makara": "^2.0.3",
-    "makara-amdify": "git://github.com/grawk/makara-amdify.git#v1.x",
+    "makara-amdify": "^1.1.9",
     "requirejs": "^2.1.20"
   },
   "devDependencies": {
