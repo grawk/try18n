@@ -17,7 +17,12 @@
     },
     "dust": {
         "helpers": [
-            "dust-makara-helpers"
+            {
+                "name": "dust-makara-helpers",
+                "arguments": {
+                    "localeFromContext": "require:./lib/computeLocale"
+                }
+            }
         ]
     },
     "i18n": {
@@ -52,6 +57,7 @@
             "module": {
                 "name": "makara-amdify",
                 "method": "middleware"
+                ,"arguments": [{ "localeContext": "makaraLocale" }]
             }
         },
 

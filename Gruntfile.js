@@ -7,7 +7,6 @@ module.exports = function (grunt) {
     require('grunt-config-dir')(grunt, {
         configDir: require('path').resolve('tasks')
     });
-    grunt.loadNpmTasks('grunt-makara-amdify');
 
     // Register group tasks
     grunt.registerTask('build', ['jshint', 'less', 'requirejs', 'makara-amdify', 'dustjs-configurable', 'copyto']);

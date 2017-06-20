@@ -13,7 +13,7 @@
             "renderer": {
                 "method": "dust",
                 "arguments": [
-                    { "cache": false, "helpers": "config:dust.helpers" }
+                    { "cache": true, "helpers": "config:dust.helpers" }
                 ]
             }
         }

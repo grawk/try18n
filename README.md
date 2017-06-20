@@ -455,3 +455,22 @@ Now let's configure `construx-makara-amdify` and re-configure `construx-dustjs` 
 ```
 
 NOW, you can delete your .build directory, restart your app, and hit the default route. How cool! It Just Works!!
+
+## feature.nonbcp47
+
+This branch was committed specifically to work out the issues with using non-standard locales. E.g. some applications may "make up" locales such as "zh-C2", where the country component isn't bcp47-compliant.
+
+There are some PRs meant to resolve this:
+https://github.com/krakenjs/dust-makara-helpers/pull/15 (merged/published as 4.2.0)
+- allow a custom `computeLocale` method to bypass bcp47 parsing
+
+https://github.com/krakenjs/makara-languagepackpath/pull/1 (merged/published as 1.1.1)
+- allow custom locale namespace to deliver locale objects and bypass bcp47 parsing
+
+https://github.com/krakenjs/makara-amdify/pull/12 (not merged, referenced directly in package.json)
+- allow custom options passed to `makara-amdify` to enable functionality from `makara-languagepachpath` PR above
+
+To test, use the URL: http://localhost:8000/?country=C2&language=zh
+
+Note: the browser fallback doesn't work. I.e. specifying a locale for which there is no properties, will fail on browser render:
+http://localhost:8000/?country=C2&language=fr (falls back to en-US for server render, fails for browser render). This is independent of the main purpose of this branch, but worth mentioning here.

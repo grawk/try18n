@@ -15,13 +15,13 @@
     "construx-copier": "^1.0.0",
     "construx-dustjs": "^1.1.0",
     "construx-less": "^1.0.0",
-    "dust-makara-helpers": "^4.1.2",
+    "dust-makara-helpers": "^4",
     "dust-message-helper": "^3.0.0",
     "dustjs-linkedin": "~2.7.0",
     "express": "^4.12.2",
     "kraken-js": "^1.0.3",
     "makara": "^2.0.3",
-    "makara-amdify": "^1.1.6",
+    "makara-amdify": "git://github.com/grawk/makara-amdify.git#v1.x",
     "requirejs": "^2.1.20"
   },
   "devDependencies": {
