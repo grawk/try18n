@@ -44,7 +44,7 @@ describe('index', function () {
             });
     });
 
-    it('should work with bcp47 fallback case', function(done) {
+    it('should work with non-bcp47 country', function(done) {
         request(mock)
             .get('/?country=C2&language=zh')
             .expect(200)
