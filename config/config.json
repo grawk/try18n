@@ -17,7 +17,8 @@
     },
     "dust": {
         "helpers": [
-            "dust-makara-helpers"
+            "dust-makara-helpers",
+            "./myHelper"
         ]
     },
     "i18n": {

@@ -3,6 +3,7 @@
 module.exports = function IndexModel() {
     return {
         name: 'index',
-        where: 'server'
+        where: 'server',
+        how: 'carefully'
     };
 };
