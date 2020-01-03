@@ -13,7 +13,8 @@ module.exports = function jshint(grunt) {
             'models/**/*.js'
         ],
         options: {
-            jshintrc: '.jshintrc'
+            jshintrc: '.jshintrc',
+            reporterOutput: ''
         }
     };
 };

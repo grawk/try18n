@@ -1,7 +1,9 @@
 {>"layouts/master" /}
 
 {<body}
+{@useContent bundle="index.properties"}
     <h1>{@pre type="content" key="greeting"/}</h1>
-    {>"example" /}
-    <div id="exampletarget"></div>
+    {>"inc/content" /}
+    {/useContent}
+
 {/body}

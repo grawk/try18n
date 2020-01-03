@@ -9,7 +9,7 @@
     }
   }(this, function (dust) {
     dust.helpers.myHelper = function myHelper(chunk, context, bodies, params) {
-        console.log(context); //context.locals is where you find your data model
+        // console.log(context); //context.locals is where you find your data model
         return true;
     }
     return dust;

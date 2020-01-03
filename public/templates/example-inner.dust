@@ -1,5 +1,4 @@
-{@useContent bundle="example.properties"}
+{@useContent bundle="example-inner.properties"}
 <h3>{@message key="greeting"/}</h3>
 <p>{@myHelper}Is True.{/myHelper}</p>
-{>"example-inner" /}
 {/useContent}
